@@ -81,9 +81,7 @@ fun MyFunction(
     onIncrementChange: (String) -> Unit,
     onCounterChange: (Int) -> Unit,
     onGlobalCounterChange: (Int) -> Unit,
-
     onResetCounter: (Int) -> Unit,
-
     maxLength: Int
 ) {
 
