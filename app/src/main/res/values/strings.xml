@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Sanmartin_Marcos_ContadoresCompose</string>
+    <string name="counter1">Contador 1</string>
+    <string name="counter2">Contador 2</string>
+    <string name="increment">Incremento</string>
+    <string name="global_counter">Global</string>
+</resources>

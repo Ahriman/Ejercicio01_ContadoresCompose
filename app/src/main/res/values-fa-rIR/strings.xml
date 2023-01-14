@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Sanmartin_Marcos_ContadoresCompose</string>
+    <string name="counter1">شمارنده ۱</string>
+    <string name="counter2">شمارنده ۲</string>
+    <string name="increment">افزایش</string>
+    <string name="global_counter">جهانی</string>
+</resources>

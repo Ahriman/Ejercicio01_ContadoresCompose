@@ -1,0 +1,301 @@
+package com.example.sanmartin_marcos_contadorescompose.screens.ejercicios
+
+import android.text.TextUtils
+import android.util.Log
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.Button
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import com.example.sanmartin_marcos_contadorescompose.R
+
+@Composable
+fun Ej01Screen() {
+
+    var contador1 by rememberSaveable { mutableStateOf(0) }
+    var contador2 by rememberSaveable { mutableStateOf(0) }
+
+    var incremento1 by rememberSaveable { mutableStateOf("1") }
+    var incremento2 by rememberSaveable { mutableStateOf("2") }
+
+    var contadorGlobal by rememberSaveable { mutableStateOf(0) }
+
+    val maxLength = 2
+
+
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Button(onClick = {
+                contador1 += incremento1.toInt()
+                contadorGlobal += incremento1.toInt()
+            }) {
+                Text(text = stringResource(R.string.counter1) + "  ($contador1)")
+            }
+            MySpacer(horizontal = 5.dp)
+            Text(text = contador1.toString())
+            MySpacer(horizontal = 5.dp)
+            Image(
+                painter = painterResource(id = R.drawable.baseline_delete_24),
+                contentDescription = "",
+                colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
+                modifier = Modifier.clickable {
+                    contador1 = 0
+                }
+            )
+
+        }
+
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(text = stringResource(R.string.increment))
+            MySpacer(horizontal = 5.dp)
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                OutlinedTextField(
+                    value = incremento1,
+                    onValueChange = {
+                        if (TextUtils.isDigitsOnly(it) && it.length <= maxLength) { // Prevenir que se pegue texto y que sea mayor de 2 dígitos
+                            incremento1 = it
+                        }
+                    },
+                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                    singleLine = true,
+                    modifier = Modifier
+                        .height(50.dp)
+                        .width(50.dp),
+                )
+
+//                Text(
+//                    text = "${incremento1.length}/$maxLength", //2
+//                    color = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.medium),
+//                    style = MaterialTheme.typography.caption,
+//                    modifier = Modifier
+//                        //.padding(start = 16.dp)
+//                        .align(Alignment.End) //4
+//                )
+            }
+
+        }
+    }
+
+    //MySpacer(vertical = 60.dp)
+
+//    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+//        Row(verticalAlignment = Alignment.CenterVertically) {
+//            Button(onClick = {
+//                contador2 += incremento2.toInt()
+//                contadorGlobal += incremento2.toInt()
+//            }) {
+//                Text(text = stringResource(R.string.counter2) + "  ($contador2)")
+//            }
+//            MySpacer(horizontal = 5.dp)
+//            Text(text = contador2.toString())
+//            MySpacer(horizontal = 5.dp)
+//            Image(
+//                painter = painterResource(id = R.drawable.baseline_delete_24),
+//                contentDescription = "",
+//                colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
+//                modifier = Modifier.clickable {
+//                    contador2 = 0
+//                }
+//            )
+//        }
+//
+//        Row(verticalAlignment = Alignment.CenterVertically) {
+//            Text(text = stringResource(R.string.increment))
+//            MySpacer(horizontal = 5.dp)
+//            OutlinedTextField(
+//                value = incremento2,
+//                onValueChange = {
+//                    if (TextUtils.isDigitsOnly(it) && it.length <= maxLength) { // Prevenir que se pegue texto y que sea mayor de 2 dígitos
+//                        incremento2 = it
+//                    }
+//                },
+//                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+//                singleLine = true,
+//                modifier = Modifier
+//                    .height(50.dp)
+//                    .width(50.dp),
+//            )
+//        }
+//    }
+
+//        MySpacer(vertical = 60.dp)
+
+
+    MyFunction(
+        counter = contador2,
+        increment = incremento2,
+//        contadorGlobal = contadorGlobal,
+//        onValueChange = { contador2 += incremento2.toInt() },
+        onCounterChange = { contador2 += incremento2.toInt() },
+        onIncrementChange = { incremento2 = it },
+        onGlobalCounterChange = { contadorGlobal += incremento2.toInt() },
+        onResetCounter = { contador2 = 0 },
+        maxLength = 2
+    )
+
+
+
+
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Text(text = stringResource(R.string.global_counter))
+        MySpacer(horizontal = 5.dp)
+        Text(text = contadorGlobal.toString())
+        MySpacer(horizontal = 5.dp)
+        Image(
+            painter = painterResource(id = R.drawable.baseline_delete_24),
+            contentDescription = "",
+            colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
+            modifier = Modifier.clickable {
+                contadorGlobal = 0
+            }
+        )
+    }
+
+}
+
+@Composable
+fun MyFunction(
+    counter: Int,
+    increment: String,
+//    contadorGlobal: Int,
+//    onValueChange: (String) -> Unit,
+    onIncrementChange: (String) -> Unit,
+    onCounterChange: (Int) -> Unit,
+    onGlobalCounterChange: (Int) -> Unit,
+
+    onResetCounter: (Int) -> Unit,
+
+    maxLength: Int
+) {
+
+//    var counter = value
+//    var contadorGlobal = contadorGlobal
+//    var increment = increment
+//    var onCounterChange = onCounterChange
+
+//    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+//        Row(verticalAlignment = Alignment.CenterVertically) {
+//            Button(onClick = {
+//                counter += increment.toInt()
+//                contadorGlobal += increment.toInt()
+//            }) {
+//                Text(text = stringResource(R.string.counter2) + "  ($counter)")
+//            }
+//            MySpacer(horizontal = 5.dp)
+//            Text(text = counter.toString())
+//            MySpacer(horizontal = 5.dp)
+//            Image(
+//                painter = painterResource(id = R.drawable.baseline_delete_24),
+//                contentDescription = "",
+//                colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
+//                modifier = Modifier.clickable {
+//                    counter = 0
+//                }
+//            )
+//        }
+//
+//        Row(verticalAlignment = Alignment.CenterVertically) {
+//            Text(text = stringResource(R.string.increment))
+//            MySpacer(horizontal = 5.dp)
+//            OutlinedTextField(
+//                value = increment,
+//                onValueChange = onCounterChange,
+//                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+//                singleLine = true,
+//                modifier = Modifier
+//                    .height(50.dp)
+//                    .width(50.dp),
+//            )
+//        }
+//    }
+
+
+
+
+
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Button(onClick = {
+//                Log.d("INCREMENTO", increment.toString())
+//                counter += increment.toInt()
+                onCounterChange(increment.toInt())
+//                Log.d("CONTADOR", value.toString())
+//                contadorGlobal += increment.toInt()
+                onGlobalCounterChange(increment.toInt())
+//                Log.d("CONTADOR GLOBAL", value.toString())
+            }) {
+                Text(text = stringResource(R.string.counter1) + "  ($counter)")
+            }
+            MySpacer(horizontal = 5.dp)
+            Text(text = counter.toString())
+            MySpacer(horizontal = 5.dp)
+            Image(
+                painter = painterResource(id = R.drawable.baseline_delete_24),
+                contentDescription = "",
+                colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
+                modifier = Modifier.clickable {
+//                    counter = 0
+                    onResetCounter(0) // INFO: OK
+                }
+            )
+
+        }
+
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(text = stringResource(R.string.increment))
+            MySpacer(horizontal = 5.dp)
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                OutlinedTextField(
+                    value = increment,
+                    onValueChange = {
+                        if (TextUtils.isDigitsOnly(it) && it.length <= maxLength) { // Prevenir que se pegue texto y que sea mayor de 2 dígitos
+//                            increment = it
+                            onIncrementChange(it)
+                        }
+                    },
+                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                    singleLine = true,
+                    modifier = Modifier
+                        .height(50.dp)
+                        .width(50.dp),
+                )
+
+//                Text(
+//                    text = "${incremento1.length}/$maxLength", //2
+//                    color = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.medium),
+//                    style = MaterialTheme.typography.caption,
+//                    modifier = Modifier
+//                        //.padding(start = 16.dp)
+//                        .align(Alignment.End) //4
+//                )
+            }
+
+        }
+    }
+
+
+//    Log.d("INCREMENTO", increment)
+//    Log.d("CONTADOR", counter.toString())
+//    Log.d("CONTADOR GLOBAL", counter.toString())
+}
+
+@Composable
+fun MySpacer(vertical: Dp = 0.dp, horizontal: Dp = 0.dp) {
+    Spacer(modifier = Modifier.padding(vertical = vertical, horizontal = horizontal))
+}
