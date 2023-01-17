@@ -5,4 +5,5 @@
     <string name="counter2">Contador 2</string>
     <string name="increment">Aumento</string>
     <string name="global_counter">Global</string>
+    <string name="error_message_textfield">Você deve inserir um número</string>
 </resources>

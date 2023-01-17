@@ -10,7 +10,7 @@ import com.example.sanmartin_marcos_contadorescompose.screens.ejercicios.Ej01Scr
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = Screens.MainScreen.route) {// Pantalla principal el Ejercicio01
+    NavHost(navController = navController, startDestination = Screens.Ejercicio01.route) {// Pantalla principal el Ejercicio01 (No se usa MainScreen dónde elegir el ejercicio correspondiente)
 
         composable(route = Screens.MainScreen.route) { MainScreen(navController) }
 

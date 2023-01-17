@@ -5,4 +5,5 @@
     <string name="counter2">شمارنده ۲</string>
     <string name="increment">افزایش</string>
     <string name="global_counter">جهانی</string>
+    <string name="error_message_textfield">باید یک عدد وارد کنید</string>
 </resources>

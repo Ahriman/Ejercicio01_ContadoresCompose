@@ -5,10 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -37,40 +34,51 @@ fun Ej01Screen() {
 
     val maxLength = 2
 
-    MyFunction(
-        counter = contador1,
-        increment = incremento1,
-        onCounterChange = { contador1 += incremento1.toInt() },
-        onIncrementChange = { incremento1 = it },
-        onGlobalCounterChange = { contadorGlobal += incremento1.toInt() },
-        onResetCounter = { contador1 = it },
-        maxLength = maxLength
-    )
-
-    MyFunction(
-        counter = contador2,
-        increment = incremento2,
-        onCounterChange = { contador2 += incremento2.toInt() },
-        onIncrementChange = { incremento2 = it },
-        onGlobalCounterChange = { contadorGlobal += incremento2.toInt() },
-        onResetCounter = { contador2 = it },
-        maxLength = maxLength
-    )
-
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Text(text = stringResource(R.string.global_counter))
-        MySpacer(horizontal = 5.dp)
-        Text(text = contadorGlobal.toString())
-        MySpacer(horizontal = 5.dp)
-        Image(
-            painter = painterResource(id = R.drawable.baseline_delete_24),
-            contentDescription = "",
-            colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
-            modifier = Modifier.clickable {
-                contadorGlobal = 0
-            }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            //.verticalScroll(rememberScrollState()),
+            .padding(top = 20.dp, bottom = 20.dp),
+        verticalArrangement = Arrangement.SpaceEvenly,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        MyFunction(
+            counter = contador1,
+            increment = incremento1,
+            onCounterChange = { contador1 += incremento1.toInt() },
+            onIncrementChange = { incremento1 = it },
+            onGlobalCounterChange = { contadorGlobal += incremento1.toInt() },
+            onResetCounter = { contador1 = it },
+            maxLength = maxLength
         )
+
+        MyFunction(
+            counter = contador2,
+            increment = incremento2,
+            onCounterChange = { contador2 += incremento2.toInt() },
+            onIncrementChange = { incremento2 = it },
+            onGlobalCounterChange = { contadorGlobal += incremento2.toInt() },
+            onResetCounter = { contador2 = it },
+            maxLength = maxLength
+        )
+
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(text = stringResource(R.string.global_counter))
+            MySpacer(horizontal = 5.dp)
+            Text(text = contadorGlobal.toString())
+            MySpacer(horizontal = 5.dp)
+            Image(
+                painter = painterResource(id = R.drawable.baseline_delete_24),
+                contentDescription = "",
+                colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
+                modifier = Modifier.clickable {
+                    contadorGlobal = 0
+                }
+            )
+        }
     }
+
+
 
 }
 
@@ -88,8 +96,11 @@ fun MyFunction(
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Button(onClick = {
-                onCounterChange(increment.toInt())
-                onGlobalCounterChange(increment.toInt())
+                if (increment.isNotEmpty()) {
+                    onCounterChange(increment.toInt())
+                    onGlobalCounterChange(increment.toInt())
+                }
+
             }) {
                 Text(text = stringResource(R.string.counter1) + "  ($counter)")
             }
@@ -104,7 +115,6 @@ fun MyFunction(
                     onResetCounter(0)
                 }
             )
-
         }
 
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -118,16 +128,32 @@ fun MyFunction(
                             onIncrementChange(it)
                         }
                     },
+                    isError = increment.isEmpty(),
                     keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                     singleLine = true,
                     modifier = Modifier
                         .height(50.dp)
                         .width(50.dp),
                 )
-
             }
-
         }
+
+        if (increment.isEmpty()) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    text = stringResource(id = R.string.error_message_textfield),
+                    color = MaterialTheme.colors.error,
+                    style = MaterialTheme.typography.caption
+                )
+                MySpacer(horizontal = 2.dp)
+                Icon(
+                    painter = painterResource(id = R.drawable.baseline_error_24),
+                    contentDescription = "",
+                    tint = MaterialTheme.colors.error,
+                )
+            }
+        }
+
     }
 
 }

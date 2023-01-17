@@ -4,4 +4,5 @@
     <string name="counter2">Contador 2</string>
     <string name="increment">Incremento</string>
     <string name="global_counter">Global</string>
+    <string name="error_message_textfield">Debe introducir un número</string>
 </resources>
