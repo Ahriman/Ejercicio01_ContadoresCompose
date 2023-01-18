@@ -3,20 +3,25 @@ package com.example.sanmartin_marcos_contadorescompose.screens.ejercicios
 import android.text.TextUtils
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Warning
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.sanmartin_marcos_contadorescompose.R
@@ -77,7 +82,6 @@ fun Ej01Screen() {
             )
         }
     }
-
 
 
 }
@@ -154,6 +158,29 @@ fun MyFunction(
             }
         }
 
+//        OutlinedTextFieldValidation(
+//            value = increment,
+//            onValueChange = {
+//                if (TextUtils.isDigitsOnly(it) && it.length <= maxLength) { // Prevenir que se pegue texto y que sea mayor de 2 dígitos
+//                    onIncrementChange(it)
+//                }
+//            },
+//            label = { Text(text = stringResource(id = R.string.increment)) },
+////            label = null,
+////            placeholder = {
+////                Text(
+////                    text = stringResource(id = R.string.error_message_textfield),
+////                    color = MaterialTheme.colors.error
+////                )
+////            },
+//            placeholder = null,
+//            error = stringResource(id = R.string.error_message_textfield),
+//            isError = increment.isEmpty(),
+//            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+//            errorMessageBelow = false
+//        )
+
+
     }
 
 }
@@ -161,4 +188,73 @@ fun MyFunction(
 @Composable
 fun MySpacer(vertical: Dp = 0.dp, horizontal: Dp = 0.dp) {
     Spacer(modifier = Modifier.padding(vertical = vertical, horizontal = horizontal))
+}
+
+
+@Composable
+fun OutlinedTextFieldValidation(
+    value: String,
+    onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier.fillMaxWidth(0.8f),
+    enabled: Boolean = true,
+    readOnly: Boolean = false,
+    textStyle: TextStyle = LocalTextStyle.current,
+    label: @Composable (() -> Unit)? = null,
+    placeholder: @Composable (() -> Unit)? = null,
+    leadingIcon: @Composable (() -> Unit)? = null,
+    error: String = "",
+    isError: Boolean = value.isEmpty(),
+    trailingIcon: @Composable (() -> Unit)? = {
+        if (value.isEmpty())
+            Icon(Icons.Filled.Warning, "error", tint = MaterialTheme.colors.error)
+    },
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
+    singleLine: Boolean = true,
+    maxLines: Int = Int.MAX_VALUE,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    shape: Shape = MaterialTheme.shapes.small,
+    colors: TextFieldColors = TextFieldDefaults.outlinedTextFieldColors(
+        disabledTextColor = Color.Black
+    ),
+    errorMessageBelow: Boolean = value.isEmpty(),
+
+    ) {
+
+    Column(
+        modifier = modifier
+            .padding(8.dp)
+    ) {
+        OutlinedTextField(
+            enabled = enabled,
+            readOnly = readOnly,
+            value = value,
+            onValueChange = onValueChange,
+            modifier = Modifier
+                .fillMaxWidth(),
+            singleLine = singleLine,
+            textStyle = textStyle,
+            label = label,
+            placeholder = placeholder,
+            leadingIcon = leadingIcon,
+            trailingIcon = trailingIcon,
+            isError = isError,
+            visualTransformation = visualTransformation,
+            keyboardOptions = keyboardOptions,
+            keyboardActions = keyboardActions,
+            maxLines = maxLines,
+            interactionSource = interactionSource,
+            shape = shape,
+            colors = colors
+        )
+        if (errorMessageBelow && isError) {
+            Text(
+                text = error,
+                color = MaterialTheme.colors.error,
+                style = MaterialTheme.typography.caption,
+                modifier = Modifier.padding(top = 0.dp)
+            )
+        }
+    }
 }
