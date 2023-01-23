@@ -26,16 +26,18 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.sanmartin_marcos_contadorescompose.R
 
+
+const val startCountDefault = 0
+
 @Composable
 fun Ej01Screen() {
 
-    var contador1 by rememberSaveable { mutableStateOf(0) }
-    var contador2 by rememberSaveable { mutableStateOf(0) }
+    var contador1 by rememberSaveable { mutableStateOf(startCountDefault) }
+    var contador2 by rememberSaveable { mutableStateOf(startCountDefault) }
+    var contadorGlobal by rememberSaveable { mutableStateOf(startCountDefault) }
 
     var incremento1 by rememberSaveable { mutableStateOf("1") }
     var incremento2 by rememberSaveable { mutableStateOf("2") }
-
-    var contadorGlobal by rememberSaveable { mutableStateOf(0) }
 
     val maxLength = 2
 
@@ -96,16 +98,17 @@ fun MyFunction(
     onResetCounter: (Int) -> Unit,
     maxLength: Int
 ) {
-
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Button(onClick = {
-                if (increment.isNotEmpty()) {
-                    onCounterChange(increment.toInt())
-                    onGlobalCounterChange(increment.toInt())
-                }
-
-            }) {
+            Button(
+                onClick = {
+                    if (increment.isNotEmpty()) {
+                        onCounterChange(increment.toInt())
+                        onGlobalCounterChange(increment.toInt())
+                    }
+                },
+                enabled = increment.isNotEmpty()
+            ) {
                 Text(text = stringResource(R.string.counter1) + "  ($counter)")
             }
             MySpacer(horizontal = 5.dp)
